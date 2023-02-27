@@ -9,6 +9,9 @@ UI component for retrieving DataHub archived files.
 * Install Node 16.19.0
 * Install dependencies
 
+```
+pip3 install -r requirements.txt [--upgrade]
+```
 
 ### Front-end dependencies
 

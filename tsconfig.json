@@ -1,15 +1,33 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["../env.d.ts", "src/**/*", "src/**/*.vue"],
   "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "removeComments": true,
     "baseUrl": ".",
+    "types": [
+      "vuetify"
+    ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "src/*"
+      ],
     }
   },
-  "references": [
-    {
-      "path": "./tsconfig.config.json"
-    }
-  ]
+    "include": [
+    "../env.d.ts", 
+    "src/**/*", 
+    "src/**/*.vue"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
 }
