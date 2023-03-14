@@ -1,5 +1,5 @@
 <template>
-<v-container class="fill-height" style="">
+<v-container class="fill-height">
     <v-responsive class="d-flex align-center text-center fill-height ">
       <v-sheet
           border
@@ -44,9 +44,5 @@
 <style>
 .accent-border {
   border: 1px solid #083c7c !important;
-}
-
-.frosted {
-  background-color: #6d8cb4c3!important;
 }
 </style>
