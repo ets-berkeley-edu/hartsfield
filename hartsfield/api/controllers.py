@@ -18,21 +18,29 @@ SOFTWARE AND ACCOMPANYING DOCUMENTATION, IF ANY, PROVIDED HEREUNDER IS PROVIDED
 "AS IS". REGENTS HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES,
 ENHANCEMENTS, OR MODIFICATIONS.
 """
+from flask import current_app as app
 
-from flask import Flask 
-from flask_cors import CORS
-from hartsfield.routes import register_routes
+@app.route('/api/user/<user_id>/url', methods=['GET', 'POST'])
+def get_user_url(user_id=None):
+    # TO DO: Actual fetching logic
+    response = [{
+            "user": 'Cesar Villalobos',
+            "signed_url": 'https://thisismymockurl.berkeley.edu/9fed0c91c15a01c86cac2a6e74eede0e',
+            "expiration_date": '12/31/2023'
+        },
+        {
+            "user": 'Cesar Villalobos',
+            "signed_url": 'https://thisismymockurl.berkeley.edu/406dae77319aa765d84e9f81dc586d71',
+            "expiration_date": '04/12/2023'
+        }
+    ]
+    return response
 
-def create_app():
-    """Initialize Hartsfield"""
-    app = Flask(__name__.split('.')[0])
-    # TODO
-    # Logger, configs, init db
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    return '<p>logging you in... </p>' #do_the_login()
 
-    with app.app_context():
-        register_routes(app)
-    return app
+@app.route('/')
+def hello_world():
+    return "<p>Hello World</p>"
 
-
-app = create_app()
-CORS(app)

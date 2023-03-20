@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import DefaultView from '@/layouts/default/Default.vue'
 import Home from '@/views/Home.vue'
+import Profile from '@/views/Profile.vue'
 import NotFound from '@/views/NotFound.vue'
 
 
@@ -14,19 +15,20 @@ const routes = [
         name: 'Home',
         component: Home,
       },
-    ],
-  },
-  {
-    path: '/',
-    component: DefaultView,
-    children: [ 
       {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
         component:  NotFound,
       },
     ],
-  }
+  },
+  {
+    component: Profile,
+    path: '/user/urls',
+    meta: {
+      title: 'Profile'
+    }
+  },
 ]
 
 const router = createRouter({

@@ -18,21 +18,5 @@ SOFTWARE AND ACCOMPANYING DOCUMENTATION, IF ANY, PROVIDED HEREUNDER IS PROVIDED
 "AS IS". REGENTS HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES,
 ENHANCEMENTS, OR MODIFICATIONS.
 """
-
-from flask import Flask 
-from flask_cors import CORS
-from hartsfield.routes import register_routes
-
-def create_app():
-    """Initialize Hartsfield"""
-    app = Flask(__name__.split('.')[0])
-    # TODO
-    # Logger, configs, init db
-
-    with app.app_context():
-        register_routes(app)
-    return app
-
-
-app = create_app()
-CORS(app)
+def register_routes(app):
+    import hartsfield.api.controllers
