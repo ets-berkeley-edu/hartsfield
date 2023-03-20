@@ -1,5 +1,9 @@
+canvasapi==3.0.0
 Flask==2.2.2
+Flask-Cors==3.0.10
+python-cas==1.6.0
 Werkzeug==2.2.2
+
 
 # For testing
 pytest==7.2.0
