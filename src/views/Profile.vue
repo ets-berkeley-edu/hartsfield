@@ -7,21 +7,19 @@
         <v-row>
           <v-col>
             <v-text-field
-            v-model="searchQuery"
-            clearable
-            placeholder="Please enter a Datahub Archive Link"
-            id="archive-searchbox"
-          /> 
-        
+              v-model="searchQuery"
+              clearable
+              placeholder="Please enter a Datahub Archive Link"
+              id="archive-searchbox"
+            /> 
           </v-col>
           <v-col cols="2">
             <v-btn
               class="mt-2 ml-10"
               @click="fetchSingleUrl"
             >
-            Search
-          </v-btn>
-
+              Search
+            </v-btn>
           </v-col>
           <v-col cols="2">
             <v-btn
@@ -31,7 +29,6 @@
               Clear
             </v-btn>
           </v-col>
-
         </v-row>
       </div>
       
@@ -84,12 +81,9 @@
             </tr>
           </tbody>
         </v-table>
-
       </div>
-
-      
       <div v-if="error" class="align-center text-center pt-5">
-          The requested user does not exist, or an invalid URL was provided.
+        The requested user does not exist, or an invalid URL was provided.
       </div>
     </v-responsive>
   </v-container>

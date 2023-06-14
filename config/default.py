@@ -1,5 +1,5 @@
 """
-Copyright ©2023. The Regents of the University of California (Regents). All Rights Reserved.
+Copyright ©2022. The Regents of the University of California (Regents). All Rights Reserved.
 Permission to use, copy, modify, and distribute this software and its documentation
 for educational, research, and not-for-profit purposes, without fee and without a
 signed licensing agreement, is hereby granted, provided that the above copyright
@@ -18,9 +18,16 @@ SOFTWARE AND ACCOMPANYING DOCUMENTATION, IF ANY, PROVIDED HEREUNDER IS PROVIDED
 "AS IS". REGENTS HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES,
 ENHANCEMENTS, OR MODIFICATIONS.
 """
+import os
+import logging
 
-def register_routes(app):
-    import hartsfield.api.archive_controller
-    import hartsfield.api.auth_controller
-    import hartsfield.api.user_controller
-    import hartsfield.api.config_controller
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+# Logging
+LOGGING_FORMAT = '[%(asctime)s] - %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+LOGGING_LOCATION = 'hartsfield.log'
+LOGGING_LEVEL = logging.DEBUG
+LOGGING_PROPAGATION_LEVEL = logging.INFO
+
+HOST = '0.0.0.0'
+PORT = '5000'
