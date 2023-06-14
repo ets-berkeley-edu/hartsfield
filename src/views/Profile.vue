@@ -7,29 +7,28 @@
         <v-row>
           <v-col>
             <v-text-field
-            v-model="searchQuery"
-            clearable
-            placeholder="Please enter a Datahub Archive Link"
-            id="archive-searchbox"
-          /> 
-        
+              v-model="searchQuery"
+              clearable
+              placeholder="Please enter a Datahub Archive Link"
+              id="archive-searchbox"
+            /> 
           </v-col>
           <v-col cols="2">
             <v-btn
-            class="mt-2 ml-10"
-            @click="fetchSingleUrl"
-          >
-          Search
-          </v-btn>
-
+              class="mt-2 ml-10"
+              @click="fetchSingleUrl"
+            >
+              Search
+            </v-btn>
           </v-col>
           <v-col cols="2">
             <v-btn
               class="mt-2"
               @click="clearResults"
-            >Clear</v-btn>
+            >
+              Clear
+            </v-btn>
           </v-col>
-
         </v-row>
       </div>
       
@@ -82,12 +81,9 @@
             </tr>
           </tbody>
         </v-table>
-
       </div>
-
-      
       <div v-if="error" class="align-center text-center pt-5">
-          The requested user does not exist, or an invalid URL was provided.
+        The requested user does not exist, or an invalid URL was provided.
       </div>
     </v-responsive>
   </v-container>
@@ -144,7 +140,6 @@ export default {
         }
       }).catch((err) => {
         this.error = true
-        console.log(err)
       })   
     },
     fetchAllUrls(){
@@ -154,7 +149,6 @@ export default {
         this.userUrls = res.data;
       }).catch((err) => {
         this.error = true
-        console.log(err)
       })   
     },
     getAccountDetails() {
@@ -162,7 +156,7 @@ export default {
       axios.get(path).then((res) => {
         this.user = res.data;
       }).catch((err) => {
-        console.log(err)
+
       })
     },
     getDayDifference(date) {
@@ -179,7 +173,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 td {
   white-space: nowrap; 
   text-overflow:ellipsis; 

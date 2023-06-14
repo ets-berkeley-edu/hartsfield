@@ -22,13 +22,15 @@ ENHANCEMENTS, OR MODIFICATIONS.
 from flask import Flask 
 from flask_cors import CORS
 from hartsfield.routes import register_routes
+from hartsfield.configs import load_configs
 
 def create_app():
     """Initialize Hartsfield"""
     app = Flask(__name__.split('.')[0])
     # TODO
     # Logger, configs, init db
-
+    load_configs(app)
+    
     with app.app_context():
         register_routes(app)
     return app
