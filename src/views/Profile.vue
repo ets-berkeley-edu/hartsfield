@@ -16,10 +16,10 @@
           </v-col>
           <v-col cols="2">
             <v-btn
-            class="mt-2 ml-10"
-            @click="fetchSingleUrl"
-          >
-          Search
+              class="mt-2 ml-10"
+              @click="fetchSingleUrl"
+            >
+            Search
           </v-btn>
 
           </v-col>
@@ -27,7 +27,9 @@
             <v-btn
               class="mt-2"
               @click="clearResults"
-            >Clear</v-btn>
+            >
+              Clear
+            </v-btn>
           </v-col>
 
         </v-row>
@@ -144,7 +146,6 @@ export default {
         }
       }).catch((err) => {
         this.error = true
-        console.log(err)
       })   
     },
     fetchAllUrls(){
@@ -154,7 +155,6 @@ export default {
         this.userUrls = res.data;
       }).catch((err) => {
         this.error = true
-        console.log(err)
       })   
     },
     getAccountDetails() {
@@ -162,7 +162,7 @@ export default {
       axios.get(path).then((res) => {
         this.user = res.data;
       }).catch((err) => {
-        console.log(err)
+
       })
     },
     getDayDifference(date) {
@@ -179,7 +179,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 td {
   white-space: nowrap; 
   text-overflow:ellipsis; 
