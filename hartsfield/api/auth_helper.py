@@ -22,32 +22,38 @@ SOFTWARE AND ACCOMPANYING DOCUMENTATION, IF ANY, PROVIDED HEREUNDER IS PROVIDED
 "AS IS". REGENTS HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES,
 ENHANCEMENTS, OR MODIFICATIONS.
 """
-import os
 
-import hartsfield.factory
-import pytest
+from functools import wraps
 
-
-os.environ['HARTSFIELD_ENV'] = 'test'  # noqa
-
-# Because app and db fixtures are only created once per pytest run, individual tests
-# are not able to modify application configuration values before the app is created.
-# Per-test customizations could be supported via a fixture scope of 'function' and
-# the @pytest.mark.parametrize annotation.
+from flask import current_app as app, request
+from flask_login import current_user
+from hartsfield.api.errors import UnauthorizedRequestError
+from hartsfield.models.user import find_by_uid
 
 
-@pytest.fixture(scope='session')
-def app(request):
-    """Fixture application object, shared by all tests."""
-    _app = hartsfield.factory.create_app()
+def auth_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if not current_user.is_authenticated:
+            auth = request.authorization
+            if not auth or not valid_worker_credentials(auth.username, auth.password):
+                raise UnauthorizedRequestError('Invalid credentials.')
+        return f(*args, **kwargs)
+    return decorated
 
-    # Create app context before running tests.
-    ctx = _app.app_context()
-    ctx.push()
 
-    def teardown():
-        # Pop the context after running tests.
-        ctx.pop()
+def authorzied_user_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        uid = current_user.uid
+        user = find_by_uid(uid)
+        if user is None:
+            auth = request.authorization
+            if not auth:
+                raise UnauthorizedRequestError('Invalid credentials.')
+        return f(*args, **kwargs)
+    return decorated
 
-    request.addfinalizer(teardown)
-    return _app
+
+def valid_worker_credentials(username, password):
+    return username == app.config['API_USERNAME'] and password == app.config['API_PASSWORD']

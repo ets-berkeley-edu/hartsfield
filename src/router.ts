@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-const Fetchurl = () => import('./views/Fetchurl.vue')
 
 const routes = [
   {
@@ -8,20 +7,12 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Nostromo',
+        name: 'Fetchurl',
         // Lazy-load components
-        component: () => import('@/views/Nostromo.vue'),
+        component: () => import('@/views/FetchURL.vue'),
       },
     ],
-  },
-  {
-    component: Fetchurl,
-    path: '/fetchurl',
-    meta: {
-      title: 'Fetch URL',
-    }
-  },
-
+  }
 ]
 
 const router = createRouter({

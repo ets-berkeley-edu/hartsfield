@@ -25,6 +25,9 @@ ENHANCEMENTS, OR MODIFICATIONS.
 
 import logging
 
+CAS_SERVER = 'https://auth-test.berkeley.edu/cas/'
+CAS_LOGOUT_URL = 'https://auth-test.berkeley.edu/cas/logout'
+
 DEV_AUTH_ENABLED = False
 DEV_AUTH_PASSWORD = 'another secret'
 

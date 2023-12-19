@@ -6,14 +6,13 @@ Hartsfield humbly supports UC Berkeley's DataHub.
 
 ## Installation
 
-* Install Python 3.8
+* Install Python 3
 * Create your virtual environment (venv)
 * Install dependencies
 
 ```
 pip3 install -r requirements.txt [--upgrade]
 ```
-
 
 
 ### Create local configurations
@@ -40,3 +39,8 @@ export HARTSFIELD_LOCAL_CONFIGS=/Users/gregm/rip_hartsfield/hartsfield_config
 export HARTSFIELD_ENV=development
 npm run serve-vue
 ```
+
+
+## A diagram of the intended function of the application:
+
+![Diagram of Hartsfield front end, back end, GCP components, and their relationships.](src/assets/2023-10-03_Hartsfield_diagram.png)
