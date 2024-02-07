@@ -17,7 +17,7 @@ phases:
   post_build:
     commands:
       - chmod 755 ./scripts/*.sh
-      - ./scripts/create-build-summary.sh
+      - ./scripts/codebuild/create-build-summary.sh
 artifacts:
   files:
   - '.ebextensions/**/*'
