@@ -9,7 +9,7 @@ const routes = [
         path: '',
         name: 'Fetchurl',
         // Lazy-load components
-        component: () => import('@/views/FetchURL.vue'),
+        component: () => import('@/views/Fetchurl.vue'),
       },
     ],
   }
