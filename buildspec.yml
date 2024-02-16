@@ -16,7 +16,6 @@ phases:
       - npm run build-vue
   post_build:
     commands:
-      - chmod 755 ./scripts/*.sh
       - ./scripts/codebuild/create-build-summary.sh
 artifacts:
   files:
