@@ -24,11 +24,16 @@ ENHANCEMENTS, OR MODIFICATIONS.
 """
 from flask import current_app as app
 from flask_login import UserMixin
+import hartsfield.api.read_aws_secret
+
+AWS_SECRETS_NAME_AUTHORIZED_USERS = app.config['AWS_SECRETS_NAME_AUTHORIZED_USERS']
+authorized_users_text = hartsfield.api.read_aws_secret.read_aws_secret(AWS_SECRETS_NAME_AUTHORIZED_USERS)
+authorized_users_list = [int(user) for user in authorized_users_text.split(',')]
 
 
 def find_by_uid(user_uid):
     if user_uid:
-        uid = next((uid for uid in app.config['AUTHORIZED_USERS'] if uid == int(user_uid)), None)
+        uid = next((uid for uid in authorized_users_list if uid == int(user_uid)), None)
         return User(uid) if uid else None
     else:
         return None

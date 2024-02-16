@@ -25,6 +25,10 @@ ENHANCEMENTS, OR MODIFICATIONS.
 
 import logging
 
+AWS_SECRETS_REGION = "us-west-2"
+AWS_SECRETS_NAME_AUTHORIZED_USERS = "AUTHORIZED_USERS"
+AWS_SECRETS_NAME_GCP_JSON_CREDENTIALS = "GCP_JSON_CREDENTIALS"
+
 CAS_SERVER = 'https://auth-test.berkeley.edu/cas/'
 CAS_LOGOUT_URL = 'https://auth-test.berkeley.edu/cas/logout'
 

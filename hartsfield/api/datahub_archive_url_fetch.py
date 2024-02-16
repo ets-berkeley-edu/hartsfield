@@ -31,6 +31,7 @@ from google.cloud import storage
 from google.oauth2 import service_account
 from hartsfield.api.auth_helper import authorzied_user_required
 from hartsfield.lib.http import tolerant_jsonify
+import hartsfield.api.read_aws_secret
 
 PUBLIC_CONFIGS = [
     'DEV_AUTH_ENABLED',
@@ -38,9 +39,11 @@ PUBLIC_CONFIGS = [
     'TIMEZONE',
 ]
 
-gcp_json_credentials = app.config['GCP_JSON_CREDENTIALS']
-gcp_json_credentials_dict = json.loads(gcp_json_credentials)
+AWS_SECRETS_NAME_GCP_JSON_CREDENTIALS = app.config['AWS_SECRETS_NAME_GCP_JSON_CREDENTIALS']
 
+
+gcp_json_credentials_from_aws = hartsfield.api.read_aws_secret.read_aws_secret(AWS_SECRETS_NAME_GCP_JSON_CREDENTIALS)
+gcp_json_credentials_dict = json.loads(gcp_json_credentials_from_aws)
 
 @app.route('/api/fetch_url_direct', methods=['POST'])
 @authorzied_user_required
