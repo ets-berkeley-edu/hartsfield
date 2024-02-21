@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": false,
   "scripts": {
-    "build-vue": "vite build",
+    "build-vue": "vite build --outDir='dist/static'", 
     "lint-vue": "eslint . --ignore-path .gitignore",
     "lint-vue-fix": "eslint . --fix --ignore-path .gitignore",
     "preview": "vite preview",
