@@ -48,4 +48,3 @@ export default defineConfig({
     port: 8080
   }
 })
-//        additionalData: '@import "@/assets/scss/global.scss";'
