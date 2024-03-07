@@ -40,23 +40,6 @@ Usage mode B:
 >>> flask initdb
 """
 
-# temporary code to debug the elastic beanstalk run context
-# run the shell command pwd using os.system and append stdout and stderr to the file /tmp/commands.txt
-os.system('/usr/bin/pwd >> /tmp/commands.txt 2>&1')
-# run the shell command whoami using os.system and append stdout and stderr to the file /tmp/commands.txt
-os.system('/usr/bin/whoami >> /tmp/commands.txt 2>&1')
-# run the shell command ls using os.system and append stdout and stderr to the file /tmp/commands.txt
-os.system('/usr/bin/ls >> /tmp/commands.txt 2>&1')
-# run the shell command ls * using os.system and append stdout and stderr to the file /tmp/commands.txt
-os.system('/usr/bin/ls * >> /tmp/commands.txt 2>&1')
-# run the shell command which python using os.system and append stdout and stderr to the file /tmp/commands.txt
-os.system('/usr/bin/which python >> /tmp/commands.txt 2>&1')
-
-# read the file /tmp/commands.txt and print the contents to the console
-with open('/tmp/commands.txt', 'r') as file:
-    print(file.read())
-
-
 # When running under WSGI, system environment variables are not automatically made available to Python code, and
 # an app restart will result in configurations being lost. We work around this with an explicit load from the shell
 # environment, sourcing from the Elastic Beanstalk-provided /opt/python/current/env file if available.
