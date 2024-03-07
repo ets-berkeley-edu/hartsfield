@@ -41,6 +41,7 @@
               placeholder="gs://ucb-datahub-archived-homedirs/2022-2-summer/data100/.....tar.gz"
               rows="4"
               required
+              @focus="clearContents"
             ></textarea>
           </v-row>
 
@@ -158,6 +159,10 @@ export default {
     },
     copyText() {
       navigator.clipboard.writeText(this.responseFromGcp);
+    },
+      clearContents() {
+      this.gs_source_url = '';
+      this.responseFromGcp = '';
     }
   }
 }
