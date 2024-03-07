@@ -51,6 +51,7 @@ def fetch_url_direct():
 
     params = request.get_json()
     gs_source_url = params.get('gs_source_url')
+    gs_source_url = gs_source_url.strip()
     if not re.match(r'gs://.{3,}/.+', gs_source_url):
         error_message = 'The submitted data \"' + gs_source_url + '\" is not a valid gs_source_url.'
         v = {'response': error_message, 'status': 'error'}
