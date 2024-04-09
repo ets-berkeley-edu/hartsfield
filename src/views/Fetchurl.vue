@@ -160,7 +160,7 @@ export default {
     copyText() {
       navigator.clipboard.writeText(this.responseFromGcp);
     },
-      clearContents() {
+    clearContents() {
       this.gs_source_url = '';
       this.responseFromGcp = '';
     }

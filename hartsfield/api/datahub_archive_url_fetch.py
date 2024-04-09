@@ -45,6 +45,7 @@ AWS_SECRETS_NAME_GCP_JSON_CREDENTIALS = app.config['AWS_SECRETS_NAME_GCP_JSON_CR
 gcp_json_credentials_from_aws = hartsfield.api.read_aws_secret.read_aws_secret(AWS_SECRETS_NAME_GCP_JSON_CREDENTIALS)
 gcp_json_credentials_dict = json.loads(gcp_json_credentials_from_aws)
 
+
 @app.route('/api/fetch_url_direct', methods=['POST'])
 @authorzied_user_required
 def fetch_url_direct():
@@ -71,10 +72,10 @@ def fetch_url_direct():
     try:
         stats = storage.Blob(bucket=bucket, name=blob_name).exists(storage_client)
     except Exception as e:
-        error_message = 'There was an exception trying to do the GCP storage operation with the submitted data \"' + \
-                        gs_source_url + \
-                        '\'. When GCP tried, it told us: \"' + \
-                        str(e) + '\"'
+        error_message = f"""There was an exception trying to do the GCP storage operation
+            with the submitted data "{gs_source_url}".
+            When GCP tried, it told us: "{str(e)}"
+        """
         v = {'response': error_message, 'status': 'error'}
         return tolerant_jsonify(v)
     if stats:
@@ -87,7 +88,7 @@ def fetch_url_direct():
         )
         v = {'response': gcp_response, 'status': 'success'}
     else:
-        gcp_response = 'GCP tried, but could not locate a file \"' + blob_name + '\" in a bucket called \"' + bucket_name + '\".'
+        gcp_response = f'GCP tried, but could not locate a file "{blob_name}" in a bucket called "{bucket_name}".'
         v = {'response': gcp_response, 'status': 'error'}
 
     return tolerant_jsonify(v)
