@@ -36,7 +36,7 @@
             </label>
             <textarea
               id="page-fetch-url-name"
-              v-model="gs_source_url"
+              v-model="gsSourceUrl"
               :disabled="isRequesting"
               placeholder="gs://ucb-datahub-archived-homedirs/2022-2-summer/data100/.....tar.gz"
               rows="4"
@@ -125,7 +125,7 @@ export default {
   name: 'Login',
   mixins: [Context],
   data: () => ({
-    gs_source_url: undefined,
+    gsSourceUrl: undefined,
     responseFromGcp: undefined,
     isRequesting: undefined,
     wasCreated: undefined,
@@ -144,7 +144,7 @@ export default {
     },
     fetchUrl() {
       this.isRequesting = true
-      fetchUrl(this.gs_source_url).then(data => {
+      fetchUrl(this.gsSourceUrl).then(data => {
         this.isRequesting = false
         if (data.status == "success") {
           this.wasCreated = true
@@ -161,7 +161,7 @@ export default {
       navigator.clipboard.writeText(this.responseFromGcp);
     },
     clearContents() {
-      this.gs_source_url = '';
+      this.gsSourceUrl = '';
       this.responseFromGcp = '';
     }
   }

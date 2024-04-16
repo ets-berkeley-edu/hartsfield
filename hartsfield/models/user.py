@@ -97,7 +97,7 @@ class User(UserMixin):
             'id': uid,
             'isActive': is_active,
             'isAdmin': is_active,
-            'isAnonymous': not is_active,
+            'isAnonymous': not uid,
             'isAuthenticated': is_active,
             'uid': uid,
         }
