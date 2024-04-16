@@ -22,7 +22,21 @@ SOFTWARE AND ACCOMPANYING DOCUMENTATION, IF ANY, PROVIDED HEREUNDER IS PROVIDED
 "AS IS". REGENTS HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES,
 ENHANCEMENTS, OR MODIFICATIONS.
 """
+from flask import current_app as app
 from flask_login import UserMixin
+import hartsfield.api.read_aws_secret
+
+AWS_SECRETS_NAME_AUTHORIZED_USERS = app.config['AWS_SECRETS_NAME_AUTHORIZED_USERS']
+authorized_users_text = hartsfield.api.read_aws_secret.read_aws_secret(AWS_SECRETS_NAME_AUTHORIZED_USERS)
+authorized_users_list = [int(user) for user in authorized_users_text.split(',')]
+
+
+def find_by_uid(user_uid):
+    if user_uid:
+        uid = next((uid for uid in authorized_users_list if uid == int(user_uid)), None)
+        return User(uid) if uid else None
+    else:
+        return None
 
 
 class User(UserMixin):
@@ -77,23 +91,13 @@ class User(UserMixin):
 
     @classmethod
     def _load_user(cls, uid=None):
-        calnet_profile = {}  # TODO: get_calnet_user_for_uid(app, uid) if uid else {}
-        expired = False  # TODO: calnet_profile.get('isExpiredPerLdap', True)
-        is_admin = False
-        is_teaching = False
-        is_active = (is_teaching or is_admin) and not expired
+        is_active = True if uid else False
 
         return {
-            **calnet_profile,
-            **{
-                'id': uid,
-                'emailAddress': calnet_profile.get('email'),
-                'isActive': is_active,
-                'isAdmin': is_admin,
-                'isAnonymous': not is_active,
-                'isAuthenticated': is_active,
-                'isTeaching': is_teaching,
-                'name': calnet_profile.get('name') or f'UID {uid}',
-                'uid': uid,
-            },
+            'id': uid,
+            'isActive': is_active,
+            'isAdmin': is_active,
+            'isAnonymous': not uid,
+            'isAuthenticated': is_active,
+            'uid': uid,
         }

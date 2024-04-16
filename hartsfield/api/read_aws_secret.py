@@ -1,5 +1,5 @@
 """
-Copyright ©2022. The Regents of the University of California (Regents). All Rights Reserved.
+Copyright ©2023. The Regents of the University of California (Regents). All Rights Reserved.
 
 Permission to use, copy, modify, and distribute this software and its documentation
 for educational, research, and not-for-profit purposes, without fee and without a
@@ -22,32 +22,38 @@ SOFTWARE AND ACCOMPANYING DOCUMENTATION, IF ANY, PROVIDED HEREUNDER IS PROVIDED
 "AS IS". REGENTS HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES,
 ENHANCEMENTS, OR MODIFICATIONS.
 """
-import os
+import boto3
+import json
+import base64
+from flask import current_app as app
 
-import hartsfield.factory
-import pytest
+PUBLIC_CONFIGS = [
+    'DEV_AUTH_ENABLED',
+    'HARTSFIELD_ENV',
+    'TIMEZONE',
+]
+
+region_name = app.config['AWS_SECRETS_REGION']
 
 
-os.environ['HARTSFIELD_ENV'] = 'test'  # noqa
+def read_aws_secret(aws_secret_name):
 
-# Because app and db fixtures are only created once per pytest run, individual tests
-# are not able to modify application configuration values before the app is created.
-# Per-test customizations could be supported via a fixture scope of 'function' and
-# the @pytest.mark.parametrize annotation.
+    # Develepment context: get & activate credentials as described in "Command line or programmatic access"
+    # in "AWS Landing Zone"
+    session = boto3.session.Session()
+    client = session.client(
+        service_name='secretsmanager',
+        region_name=region_name
+    )
 
+    get_secret_value_response = client.get_secret_value(
+        SecretId=aws_secret_name
+    )
 
-@pytest.fixture(scope='session')
-def app(request):
-    """Fixture application object, shared by all tests."""
-    _app = hartsfield.factory.create_app()
+    if 'SecretString' in get_secret_value_response:
+        secret = get_secret_value_response['SecretString']
+    else:
+        secret = base64.b64decode(get_secret_value_response['SecretBinary'])
 
-    # Create app context before running tests.
-    ctx = _app.app_context()
-    ctx.push()
-
-    def teardown():
-        # Pop the context after running tests.
-        ctx.pop()
-
-    request.addfinalizer(teardown)
-    return _app
+    # Parse the secret JSON string and return the secret value
+    return json.loads(secret)[aws_secret_name]

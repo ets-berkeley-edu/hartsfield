@@ -23,43 +23,37 @@ SOFTWARE AND ACCOMPANYING DOCUMENTATION, IF ANY, PROVIDED HEREUNDER IS PROVIDED
 ENHANCEMENTS, OR MODIFICATIONS.
 """
 
-import logging
+from functools import wraps
 
-AWS_SECRETS_REGION = "us-west-2"
-AWS_SECRETS_NAME_AUTHORIZED_USERS = "AUTHORIZED_USERS"
-AWS_SECRETS_NAME_GCP_JSON_CREDENTIALS = "GCP_JSON_CREDENTIALS"
+from flask import current_app as app, request
+from flask_login import current_user
+from hartsfield.api.errors import UnauthorizedRequestError
+from hartsfield.models.user import find_by_uid
 
-CAS_SERVER = 'https://auth-test.berkeley.edu/cas/'
-CAS_LOGOUT_URL = 'https://auth-test.berkeley.edu/cas/logout'
 
-DEV_AUTH_ENABLED = False
-DEV_AUTH_PASSWORD = 'another secret'
+def auth_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if not current_user.is_authenticated:
+            auth = request.authorization
+            if not auth or not valid_worker_credentials(auth.username, auth.password):
+                raise UnauthorizedRequestError('Invalid credentials.')
+        return f(*args, **kwargs)
+    return decorated
 
-# Directory to search for mock fixtures, if running in "test" or "demo" mode.
-FIXTURES_PATH = None
 
-# Minutes of inactivity before session cookie is destroyed
-INACTIVE_SESSION_LIFETIME = 120
+def authorzied_user_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        uid = current_user.uid
+        user = find_by_uid(uid)
+        if user is None:
+            auth = request.authorization
+            if not auth:
+                raise UnauthorizedRequestError('Invalid credentials.')
+        return f(*args, **kwargs)
+    return decorated
 
-# These "INDEX_HTML" defaults are good in hartsfield-[dev|qa|prod]. See development.py for local configs.
-INDEX_HTML = 'dist/static/index.html'
 
-# Logging
-LOGGING_FORMAT = '[%(asctime)s] - %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
-LOGGING_LOCATION = 'hartsfield.log'
-LOGGING_LEVEL = logging.DEBUG
-LOGGING_PROPAGATION_LEVEL = logging.WARN
-
-REMEMBER_COOKIE_NAME = 'remember_hartsfield_token'
-
-# Used to encrypt session cookie.
-SECRET_KEY = 'secret'
-
-TIMEZONE = 'America/Los_Angeles'
-
-# This base-URL config should only be non-None in the "local" env where the Vue front-end runs on port 8080.
-VUE_LOCALHOST_BASE_URL = None
-
-# We keep these out of alphabetical sort above for readability's sake.
-HOST = '0.0.0.0'
-PORT = 5000
+def valid_worker_credentials(username, password):
+    return username == app.config['API_USERNAME'] and password == app.config['API_PASSWORD']
